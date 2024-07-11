@@ -1,11 +1,14 @@
 "use server";
 import * as z from "zod";
-import { LoginSchema } from "@/schemas";
-import { signIn } from "next-auth/react";
-import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { AuthError } from "next-auth";
-import { generateVerificationToken } from "@/lib/token";
+
+import { signIn } from "next-auth/react";
+import { LoginSchema } from "@/schemas";
 import { getUserByEmail } from "@/data/user";
+import { sendVerificationEmail } from "@/lib/mail";
+import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
+import { generateVerificationToken } from "@/lib/token";
+import { send } from "process";
 
 export const login = async (values: z.infer<typeof LoginSchema>) => {
   const validatedFields = LoginSchema.safeParse(values);
@@ -24,6 +27,11 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
   if (!existingUser.emailVerified) {
     const verificaitionToken = await generateVerificationToken(
       existingUser.email,
+    );
+
+    await sendVerificationEmail(
+      verificaitionToken.email,
+      verificaitionToken.token,
     );
     return { success: "Confirmation email sent!" };
   }
