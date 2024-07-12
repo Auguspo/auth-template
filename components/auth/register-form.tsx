@@ -15,9 +15,9 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import CardWrapper from "@/components/auth/card-wrapper";
-import FormError from "@/components/form-error";
-import { FormSucess } from "@/components/form-success";
+import { CardWrapper } from "@/components/auth/card-wrapper";
+import { FormError } from "@/components/form-error";
+import { FormSuccess } from "@/components/form-success";
 import { register } from "@/actions/register";
 
 export const RegisterForm = () => {
@@ -48,31 +48,26 @@ export const RegisterForm = () => {
     <CardWrapper
       headerLabel='Create an account '
       backButtonHref='/auth/login'
-      backButtonLabel="Already have an account?"
+      backButtonLabel='Already have an account?'
       showSocial
     >
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6'>
           <div className='space-y-5'>
-           
-          <FormField
+            <FormField
               control={form.control}
               name='name'
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Name</FormLabel>
                   <FormControl>
-                    <Input
-                      {...field}
-                      disabled={isPending}
-                      placeholder='Name'
-                      
-                    />
+                    <Input {...field} disabled={isPending} placeholder='Name' />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
-            /> <FormField
+            />{" "}
+            <FormField
               control={form.control}
               name='email'
               render={({ field }) => (
@@ -110,7 +105,7 @@ export const RegisterForm = () => {
             />
           </div>
           <FormError message={error} />
-          <FormSucess message={success} />
+          <FormSuccess message={success} />
           <Button type='submit' disabled={isPending} className='w-full'>
             Create an account
           </Button>

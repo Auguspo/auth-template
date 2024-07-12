@@ -14,4 +14,4 @@ export const FormError = ({ message }: FormErrorProps) => {
   );
 };
 
-export default FormError;
+
